@@ -13,8 +13,16 @@ if %DATE:~3,2% == 10 set /a (days=273)
 if %DATE:~3,2% == 11 set /a (days=304)
 if %DATE:~3,2% == 12 set /a (days=334)
 
-set /a schalt =  %DATE:~8,2% %% 4
-if %DATE:~3,2% GTR 2 if %schalt% == 0 set /a (days+=1)
+SET /a rule = %DATE:~6,4% %% 4
+SET /a exeption1=%DATE:~6,4% %% 100
+SET /a exeption2=%DATE:~6,4% %% 400
+
+set /a leap=0
+IF %rule%==0 set /a leap=1
+IF %exeption1%==0 set /a leap=0
+IF %exeption2%==0 set /a leap=1
+
+if %DATE:~3,2% GTR 2 set /a (days+=%leap%)
 
 set /a (days+=%DATE:~0,2%)
 
