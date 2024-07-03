@@ -1,0 +1,1 @@
+*.bat file to return number of curent week
