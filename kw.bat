@@ -31,3 +31,16 @@ set /a (kw=%days%/7 + 1)
 if %kw% LSS 10 set (kw=0%kw%)
 
 echo %kw%
+
+
+REM https://de.wikipedia.org/wiki/Woche
+SET /a iso=0
+if %DATE:~3,2% == 01 set /a (iso=1)
+if %DATE:~0,2% LSS 4 set /a (iso+=1)
+REM if 2 -> exception jan
+
+if %DATE:~3,2% == 12 set /a (iso=3)
+if %DATE:~0,2% GTR 28 set /a (iso+=1)
+REM if 4 -> exception dec
+
+echo %iso%
