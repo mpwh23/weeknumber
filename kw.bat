@@ -1,5 +1,9 @@
 @echo off
 
+set DATE=01x01x2022
+
+REM get days from jan 1st to act date
+
 if %DATE:~3,2% == 01 set /a (days=0)
 if %DATE:~3,2% == 02 set /a (days=31)
 if %DATE:~3,2% == 03 set /a (days=59)
@@ -24,9 +28,29 @@ IF %exeption2%==0 set /a leap=1
 
 if %DATE:~3,2% GTR 2 set /a (days+=%leap%)
 
-set /a (days+=%DATE:~0,2%)
+set /a days+=%DATE:~0,2%
+
+REM first day of year
+set /a e4=(%DATE:~6,4%/4)
+set /a myif=%DATE:~6,4% %% 4
+if NOT %myif% == 0 set /a e4+=1
+
+set /a e100=(%DATE:~6,4%/100)
+set /a myif=%DATE:~6,4% %% 100
+if NOT %myif% == 0 set /a e100+=1
+
+set /a e400=(%DATE:~6,4%/400)
+set /a myif=%DATE:~6,4% %% 400
+if NOT %myif% == 0 set /a e400+=1
+
+set /a (fd=(%DATE:~6,4% * 365 + %e400% - %e100% + %e4% - 2) %% 7)
+REM fd -> MON = 0, SUN = 6
+
+set /a (days+=(%fd%-1))
 
 set /a (kw=%days%/7 + 1)
+
+if %fd% GTR 3 set /a kw+=-1
 
 if %kw% LSS 10 set (kw=0%kw%)
 
